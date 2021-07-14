@@ -14,29 +14,12 @@ const App = () => {
 	const [ values2, handleChange2 ] = useForm({ firstName: '', lastName: '' });
     
     const [showHello,setShowHello] = useState(true);
-    const [count,setCount] = useState(1);
+    const [count,setCount] = useState(()=> JSON.parse(localStorage.getItem("count")) );
     const {data,loading} = useFetch(`http://numbersapi.com/${count}/trivia`);
-    //https://numbersapi.com/43/trivia
-    // useEffect(()=>{
-    //     console.log("remder")
-    //     const onMouseMove = e => {
-    //         console.log(e)
-    //     };
-    //     window.addEventListener('mousemove',onMouseMove);
-    //     return ()=> {
-    //         console.log("unmount")
-    //         window.removeEventListener('mousemove',onMouseMove);
-
-    //     }
-    // },
-    // [] //caalled the dependency array, pass in all the values the effect depends on. the effect will occur when those vaalues change
-    // )
-    // useEffect(()=>{
-    //     console.log("mount1")
-    // },[])
-    // useEffect(()=>{
-    //     console.log("mount2")
-    // },[])
+    
+    useEffect(()=> {
+        localStorage.setItem('count',JSON.stringify(count))
+    },[count])
 
 	return (
 		<div>
