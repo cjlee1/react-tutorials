@@ -13,25 +13,23 @@ export const Hello = () => {
 		},
 		[ count ]
 	);
-    
-    // same as useMeasure
-    // const divRef =useRef();
 
-    // const [rect,setRect]= useState({});
-    // useLayoutEffect(()=>{
-    //     setRect(divRef.current.getBoundingClientRect()); 
-    // }
-    // ,[data]);
-    const [rect,divRef] =useMeasure([data]);
+	// same as useMeasure
+	// const divRef =useRef();
+
+	// const [rect,setRect]= useState({});
+	// useLayoutEffect(()=>{
+	//     setRect(divRef.current.getBoundingClientRect());
+	// }
+	// ,[data]);
+	const [ rect, divRef ] = useMeasure([ data ]);
 	// console.log('hello renders: ', renders.current++);
 	return (
 		<div>
-            <div style= {{display:"flex"}}>
-                <div ref={divRef}> {!data ? 'loading...' : data}</div>
-            </div>
-            <pre>
-                {JSON.stringify(rect,null,2)}
-            </pre>
+			<div style={{ display: 'flex' }}>
+				<div ref={divRef}> {!data ? 'loading...' : data}</div>
+			</div>
+			<pre>{JSON.stringify(rect, null, 2)}</pre>
 			<div> Count ({count})</div>
 			<button
 				onClick={() => {
