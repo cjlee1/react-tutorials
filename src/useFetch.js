@@ -18,12 +18,11 @@ useEffect(()=>{
         ).then(
             y=>{
                 console.log(y);
-                setTimeout(()=>{
                     if (isCurrent.current){
                         setState({data:y,loading:false});
                         
                     }
-                },2000);
+                
             });
 
     },[url]);
