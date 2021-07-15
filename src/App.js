@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState,useRef } from 'react';
 import { useForm } from './useForm';
 import { Hello } from './Hello';
-import { useFetch } from './useFetch';
 
 
 function expensiveInitialState() {
@@ -13,22 +12,21 @@ const App = () => {
 	const [ values, handleChange ] = useForm({ email: '',name:'', password: '' });
 	const [ values2, handleChange2 ] = useForm({ firstName: '', lastName: '' });
     
+
     const [showHello,setShowHello] = useState(true);
-    const [count,setCount] = useState(()=> JSON.parse(localStorage.getItem("count")) );
-    const {data,loading} = useFetch(`http://numbersapi.com/${count}/trivia`);
     
-    useEffect(()=> {
-        localStorage.setItem('count',JSON.stringify(count))
-    },[count])
+    
+    const inputRef = useRef(0); //giving reference to some react component  aand being able to use that somewhere in my application and imperatively call it
+    const hello = useRef(()=> console.log('hello'));
+    // const [showHello,setShowHello]= useState(true);
+
 
 	return (
 		<div>
-            <div> {!data? "loading...": data}</div>
-            <div> Count ({count})</div>
-            <button onClick={()=>{setCount(count+1)}}>+</button>
-            {/* <button onClick={()=>setShowHello(!showHello)}> toggle</button>
-            {showHello && <Hello />} */}
-			<input name="email" placeholder="email" value={values.email} onChange={handleChange} />
+            
+            <button onClick={()=>setShowHello(!showHello)}> toggle</button>
+            {showHello && <Hello />}
+			<input ref = {inputRef} name="email" placeholder="email" value={values.email} onChange={handleChange} />
             <input name="name" placeholder="name" value={values.name} onChange={handleChange} />
 
 			<input name="password" placeholder="password" type="password" value={values.password} onChange={handleChange} />
@@ -41,6 +39,10 @@ const App = () => {
 					Your name is: {values2.firstName} {values2.lastName}
 				</p>
 			</div>
+            <button onClick={()=>{
+                inputRef.current.focus();
+                hello.current();
+            }}> focus</button>
 		</div>
 	);
 };
