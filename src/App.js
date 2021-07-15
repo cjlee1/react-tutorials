@@ -1,4 +1,4 @@
-import React, {  useState,useRef } from 'react';
+import React, {  useState,useRef, useLayoutEffect } from 'react';
 import { useForm } from './useForm';
 import { Hello } from './Hello';
 
@@ -15,7 +15,10 @@ const App = () => {
 
     const [showHello,setShowHello] = useState(true);
     
-    
+    useLayoutEffect(()=>{
+        console.log(inputRef.getBoundingClientRect());
+    }
+    ,[]);
     const inputRef = useRef(0); //giving reference to some react component  aand being able to use that somewhere in my application and imperatively call it
     const hello = useRef(()=> console.log('hello'));
     // const [showHello,setShowHello]= useState(true);
