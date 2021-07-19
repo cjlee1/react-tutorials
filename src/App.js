@@ -1,50 +1,57 @@
-import React, {useReducer, useState} from 'react';
+import React, { useReducer, useState } from 'react';
 // import { Hello } from './Hello';
 // import { Square } from './Square';
-import {useFetch} from './useFetch';
+import { useFetch } from './useFetch';
 
-// alternative to useState hook
-function reducer(state,action){
-	switch(action.type){
+// alternative to useState hook , when states get more complex useReducer  else simple states use useState
+function reducer(state, action) {
+	switch (action.type) {
 		case 'add-todo':
-			return {todos:[
-				...state.todos,{
-					text:action.text,
-					completed:false
-				}
-			]};
+			return {
+				todos: [
+					...state.todos,
+					{
+						text: action.text,
+						completed: false
+					}
+				],
+				todoCount: state.todoCount + 1
+			};
 		case 'toggle-todo':
-		return {
-			todos:state.todos.map((t,idx)=> idx === action.idx ? {...t,completed: !t.completed}: t
-			)
-		
-		};
+			return {
+				todos: state.todos.map((t, idx) => (idx === action.idx ? { ...t, completed: !t.completed } : t)),
+				todoCount:  state.todoCount 
+			};
 		case 'DECREMENT':
-			return state - 1
+			return state - 1;
 		default:
 			return state;
 	}
 }
 
 const App = () => {
-	const [{todos},dispatch ] = useReducer(reducer,{todos:[]});
-	const [text,setText] = useState();
+	const [ { todos,todoCount }, dispatch ] = useReducer(reducer, { todos: [], todoCount: 0 });
+	const [ text, setText ] = useState();
 	return (
-		<div>  
-		
-			<form onSubmit={ e => {
-				e.preventDefault();
-				dispatch({type:"add-todo",text});
-				setText("");
-			}}>
-				<input value = {text} onChange={e =>setText(e.target.value)}/>
-
+		<div>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					dispatch({ type: 'add-todo', text });
+					setText('');
+				}}>
+				<input value={text} onChange={(e) => setText(e.target.value)} />
 			</form>
-			{todos.map((t,idx)=>(
-				<div key={t.text} onClick={() => dispatch({type: 'toggle-todo', idx })}  style = {{textDecoration: t.completed ? "line-through" : ""} }>
+			<div> Number of todos: {todoCount}</div>
+
+			{todos.map((t, idx) => (
+				<div
+					key={t.text}
+					onClick={() => dispatch({ type: 'toggle-todo', idx })}
+					style={{ textDecoration: t.completed ? 'line-through' : '' }}>
 					{t.text}
-				</div>)
-				)}
+				</div>
+			))}
 		</div>
 	);
 };
