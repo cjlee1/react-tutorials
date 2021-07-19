@@ -2,14 +2,14 @@ import React from 'react';
 import { useCountRenders } from './useCountRenders';
 
 
-export const Hello = React.memo(({increment}) => {
+export const Square = React.memo(({n,increment}) => {
 	 useCountRenders();
 	return (
 		<div>
 			
 			<button
-				onClick={increment}>
-				hello
+				onClick={()=>increment(n)}>
+				{n}
 			</button>
 		</div>
 	);
