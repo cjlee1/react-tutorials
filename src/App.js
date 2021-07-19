@@ -1,13 +1,24 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useState} from 'react';
 // import { Hello } from './Hello';
 // import { Square } from './Square';
 import {useFetch} from './useFetch';
 
 // alternative to useState hook
 function reducer(state,action){
-	switch(action,type){
-		case 'INCREMENT':
-			return state + 1
+	switch(action.type){
+		case 'add-todo':
+			return {todos:[
+				...state.todos,{
+					text:action.text,
+					completed:false
+				}
+			]};
+		case 'toggle-todo':
+		return {
+			todos:state.todos.map((t,idx)=> idx === action.idx ? {...t,completed: !t.completed}: t
+			)
+		
+		};
 		case 'DECREMENT':
 			return state - 1
 		default:
@@ -16,18 +27,24 @@ function reducer(state,action){
 }
 
 const App = () => {
-	const [count,dispatch ] = useReducer(reducer,0);
+	const [{todos},dispatch ] = useReducer(reducer,{todos:[]});
+	const [text,setText] = useState();
 	return (
 		<div>  
 		
-			<div> count: { count}</div>
-			<button onClick={()=>dispatch(
-				{type:"INCREMENT"}
-				)}>increment</button>
-			<button onClick={()=>dispatch({
-				type:"DECREMENT"}
-				)}>decrement</button>
+			<form onSubmit={ e => {
+				e.preventDefault();
+				dispatch({type:"add-todo",text});
+				setText("");
+			}}>
+				<input value = {text} onChange={e =>setText(e.target.value)}/>
 
+			</form>
+			{todos.map((t,idx)=>(
+				<div key={t.text} onClick={() => dispatch({type: 'toggle-todo', idx })}  style = {{textDecoration: t.completed ? "line-through" : ""} }>
+					{t.text}
+				</div>)
+				)}
 		</div>
 	);
 };
